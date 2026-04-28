@@ -1,0 +1,59 @@
+// npm init
+// npm i express
+// npm i mongodb
+// then MongoDB Atlas me database + collection create karo
+
+const express = require('express');
+const dbConnect = require('./mongodb');
+
+const app = express();
+app.use(express.json());
+
+// GET API
+app.get('/', async (req, res) => {
+    let result = await dbConnect();
+    result = await result.find().toArray();
+    res.send(result);
+});
+
+// POST API
+app.post('/', async (req, res) => {
+    let result = await dbConnect();
+    result = await result.insertOne(req.body);
+    res.send("Data successfully inserted");
+});
+
+// UPDATE API
+app.put('/', async (req, res) => {
+    let result = await dbConnect();
+    result = await result.updateOne(
+        { name: req.body.name },
+        { $set: { name: req.body.newval } }
+    );
+    res.send("Data successfully updated");
+});
+
+// DELETE API
+app.delete('/', async (req, res) => {
+    let result = await dbConnect();
+    result = await result.deleteOne(req.body);
+    res.send("Data successfully deleted");
+});
+
+const port = 3000;
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});
+
+//mongodb.js
+const {MongoClient} = require('mongodb') 
+const url ="mongodb://127.0.0.1:27017" 
+const database = 'student'; 
+const client = new MongoClient(url); 
+const dbConnect = async() => { 
+const result = await client.connect(); 
+const db = await result.db(database); 
+return db.collection('profile'); 
+} 
+module.exports=dbConnect; 

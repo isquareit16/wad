@@ -1,0 +1,108 @@
+
+ <!-- Commands To Execute In Terminal:
+ 1. npm --version     - It is used to check the version of nodejs 
+ 2. npm install @angular/cli@latest  - It is used to install angular cli
+ 3. ng new project_name      - It is used to create new angular project
+ 4. ng serve        - It is used to compile the code (Make sure you are in correct directory before executing this command)
+
+change directory and then ng serve -->
+
+<h1>{{title}}</h1>
+
+<input type="text" #name placeholder="Enter your name" name="Name"><br>
+<input type="text" #address placeholder="Enter your address" name="Address"><br>
+<input type="text" #contact placeholder="Enter your contact" name="Contact"><br>
+<input type="email" #email placeholder="Enter your email" name="E-mail"><br>
+<input type="password" #password placeholder="Enter your pass" name="Password"><br>
+
+<button (click)="getValue(name.value, address.value, contact.value, email.value)">
+  Register
+</button>
+
+<h1>Your Registered Data</h1>
+<br>
+
+<p>Name: {{displayname}}</p>
+<p>Address: {{displayaddress}}</p>
+<p>Contact: {{displaycontact}}</p>
+<p>Email: {{displayemail}}</p>
+
+
+
+
+//APP.ts
+import { Component} from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone:true,
+  imports: [RouterOutlet],
+  templateUrl: './app.html',
+  styleUrls: ['./app.css']
+})
+export class App {
+
+  title = 'Registration Form';
+
+  displayname = '';
+  displayaddress = '';
+  displaycontact = '';
+  displayemail = '';
+
+  getValue(name: string, address: string, contact: string, email: string) {
+
+    this.displayname = name;
+    this.displayaddress = address;
+    this.displaycontact = contact;
+    this.displayemail = email;
+
+  }
+
+}
+
+
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#f2f2f2;
+  font-family:Arial, sans-serif;
+  padding:20px;
+}
+
+h1{
+  margin:15px 0;
+  color:#000;
+}
+
+input{
+  width:300px;
+  padding:10px;
+  margin:8px 0;
+  border:1px solid #999;
+  border-radius:4px;
+}
+
+button{
+  padding:8px 15px;
+  background:#007bff;
+  color:white;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+button:hover{
+  background:#0056b3;
+}
+
+p{
+  margin:10px 0;
+  font-size:18px;
+}

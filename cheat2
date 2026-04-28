@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration</title>
+  <style>
+    #regForm{
+        width:300px;
+         margin:auto;
+        padding:20px;
+        background:#fff;
+    }
+    body{
+      color:black;
+      background-color:#f5f7fa;
+    }
+    
+  </style>
+</head>
+<body>
+<h2>User Registration</h2>
+
+<form id="regForm">
+  Name: <input type="text" id="name" required><br><br>
+  Email: <input type="email" id="email" required><br><br>
+  Password: <input type="password" id="password" required><br><br>
+  <button color=white type="submit">Register</button>
+</form>
+
+<script>
+document.getElementById("regForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+
+  let userData = {
+    name: name,
+    email: email,
+    password: password
+  };
+  
+  // Get existing users from localStorage
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // AJAX POST (simulated)
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "dummyURL", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onload = function () {
+    users.push(userData);   // add new user
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Open new tab to show all users
+    window.open("list.html", "_blank");
+  };
+
+  xhr.send(JSON.stringify(userData));
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+....list.html 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registered Users</title>
+</head>
+
+<style>
+  table{
+    margin:auto;
+  }
+</style>
+<body>
+
+<h2>All Registered Users</h2>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Password</th>
+  </tr>
+  <tbody id="userTable"></tbody>
+</table>
+
+<script>
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+  let tableBody = document.getElementById("userTable");
+
+  users.forEach(user => {
+    let row = `
+      <tr>
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.password}</td>
+      </tr>
+    `;
+    tableBody.innerHTML += row;
+  });
+</script>
+
+</body>
+</html>
+
+
